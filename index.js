@@ -1,5 +1,4 @@
-const { Telegraf } = require("telegraf");
-const Controllers = require("./telegram-bot/controllers");
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -22,28 +21,10 @@ mongoose
   .catch((err) => {
     console.error(`Error connecting to the database. \n${err}`);
   });
-  const bot = new Telegraf(TOKEN);
 
-  app.use(bot.webhookCallback("/"));
-  bot.telegram.setWebhook(BaseURL);
 app.use("/", appRouter);
 
 
 app.listen(PORT, () => {
   console.log(`${PORT}'s port is working`);
 });
-
-async function Main() {
-  await bot.on(
-    "message",
-    (ctx) => 
-    Controllers.MessageController(ctx)
-    // console.log(ctx)
-  );
-  await bot.on(
-    "callback_query",
-    (ctx) => Controllers.InlineController(ctx)
-    // console.log(ctx)
-  );
-}
-Main();
